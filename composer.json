@@ -1,0 +1,19 @@
+{
+    "name": "joel-fragoso/parentheses",
+    "description": "The open source application development framework for PHP",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joel Fragoso",
+            "email": "joel.fragoso@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "application",
+            "Parentheses\\": "system/parentheses"
+        }
+    }
+}
