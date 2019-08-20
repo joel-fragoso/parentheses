@@ -44,6 +44,22 @@ namespace Parentheses\Core;
  **/ 
 class Parentheses
 {
+	public $configs;
+
+	public $baseURL;
+
+	public $namespace;
+
+	public $controller;
+
+	public $action;
+
+	public $params;
+
+	public $request;
+
+	public $response;
+
 	/**
 	 * PAT_VERSION
 	 *
@@ -51,9 +67,80 @@ class Parentheses
 	 **/
 	const PAT_VERSION = '1.0.0-beta';
 
+	public function __construct($configs)
+	{
+		$this->configs = $configs;
+		$this->configs->patVersion = self::PAT_VERSION;
+
+		$this->baseURL = (! empty($this->configs->base_url))
+			? $this->configs->base_url
+			: 'http://localhost/';
+
+		$this->namespace = '\App\Controllers\\';
+		$this->controller = 'Home';
+		$this->action = 'index';
+		$this->params = [];
+	}
+
 	public function run()
 	{
-		$controller = new \App\Controllers\HomeController();
-		$controller->index();
+		$segments = $this->getSegments();
+
+		if (count($segments) > 0) {
+
+			for ($i = 0; $i < count($segments); $i++) {
+
+				if (basename(ROOTPATH) === $segments[$i]) {
+
+					$this->baseURL .= $segments[$i] . '/';
+				} elseif (is_dir(ROOTPATH . $segments[$i])) {
+
+					$this->baseURL .= $segments[$i] . '/';
+				} elseif (
+					class_exists($class = $this->getClassFullyName($segments[$i]))
+					OR class_exists($class = $this->getClassFullyName($this->controller))
+				) {
+					$controller = new $class();
+
+					$action = isset($segments[$i + 1]) ? $segments[$i + 1] : '';
+					if (method_exists($controller, $action)) {
+
+						$controller->{$action}($segments);
+						break;
+					} elseif (method_exists($controller, $this->action)) {
+						$segments[] = 'index';
+						$controller->{$this->action}($segments);
+						break;
+					} else {
+
+						echo "O método index não foi encontrada.";
+						exit(EXIT_ERROR);
+					}
+				} else {
+
+					echo "A classe {$segments[$i]} não foi encontrada.";
+					exit(EXIT_ERROR);
+				}
+			}
+		}
+	}
+
+	protected function getClassFullyName($classname)
+	{
+		return $this->namespace . ucfirst($classname) . 'Controller';
+	}
+
+	protected function getSegments()
+	{
+		return array_values(array_filter(explode('/', $this->parseURL(
+			(! empty($this->configs->request_uri))
+				? strtoupper($this->configs->request_uri)
+				: 'REQUEST_URI'
+		))));
+	}
+
+	protected function parseURL($key)
+	{
+		return parse_url($_SERVER[$key], PHP_URL_PATH);
 	}
 }

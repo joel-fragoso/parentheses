@@ -169,5 +169,5 @@ $config->load('database');
  *	Executa a aplicação
  *-------------------------------------------------------
  */
-$app = new \Parentheses\Core\Parentheses();
+$app = new \Parentheses\Core\Parentheses($config);
 $app->run();
