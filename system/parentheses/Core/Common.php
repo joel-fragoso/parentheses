@@ -40,17 +40,4 @@
 /**
  * Common functions 
  **/ 
-if (! function_exists('reset_index_array')) {
 
-	function reset_index_array($data)
-	{
-		if (
-			is_array($data)
-			&& (count($data) > 0)
-		) {
-			return array_values($data);
-		}
-
-		return [];
-	}
-}
