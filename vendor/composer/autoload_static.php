@@ -9,6 +9,7 @@ class ComposerStaticInit140ea969b10de6ec65dfcabb8f9a0d89
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Parentheses\\' => 12,
         ),
         'A' => 
@@ -18,6 +19,10 @@ class ComposerStaticInit140ea969b10de6ec65dfcabb8f9a0d89
     );
 
     public static $prefixDirsPsr4 = array (
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Parentheses\\' => 
         array (
             0 => __DIR__ . '/../..' . '/system/parentheses',
