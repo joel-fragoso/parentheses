@@ -39,5 +39,52 @@
 
 /**
  * Common functions 
- **/ 
+ **/
+if (! function_exists('is_https')) {
 
+	function is_https()
+	{
+		if (isset($_SERVER['HTTPS']) === 'on') {
+			return true;
+		}
+
+		return false;
+	}
+}
+
+if (! function_exists('get_hostname')) {
+
+	function get_hostname()
+	{
+		return isset($_SERVER['HTTP_HOST'])
+			? $_SERVER['HTTP_HOST']
+			: 'localhost';
+	}
+}
+
+if (! function_exists('base_url')) {
+
+	function base_url($path = '')
+	{
+		global $config;
+		
+		$uri = '';
+		
+		if (! $config->base_url) {
+
+			$protocol = is_https() ? 'https' : 'http';
+			$hostname = get_hostname();
+
+			$uri = "{$protocol}://{$hostname}/";			
+		} else {
+
+			$uri = $config->base_url;
+		}
+
+		if ($path) {
+			$uri .= $path;
+		}
+
+		return $uri;
+	}
+}
