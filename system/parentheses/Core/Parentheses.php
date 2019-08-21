@@ -89,7 +89,7 @@ class Parentheses
 		if (count($segments) > 0) {
 
 			for ($i = 0; $i < count($segments); $i++) {
-
+				
 				if (basename(ROOTPATH) === $segments[$i]) {
 
 					$this->baseURL .= $segments[$i] . '/';
@@ -98,31 +98,67 @@ class Parentheses
 					$this->baseURL .= $segments[$i] . '/';
 				} elseif (
 					class_exists($class = $this->getClassFullyName($segments[$i]))
-					OR class_exists($class = $this->getClassFullyName($this->controller))
 				) {
+
 					$controller = new $class();
 
-					$action = isset($segments[$i + 1]) ? $segments[$i + 1] : '';
+					$action = isset($segments[$i + 1]) ? $segments[$i + 1] : $this->action;
 					if (method_exists($controller, $action)) {
 
 						$controller->{$action}($segments);
 						break;
-					} elseif (method_exists($controller, $this->action)) {
-						$segments[] = 'index';
-						$controller->{$this->action}($segments);
-						break;
 					} else {
 
-						echo "O método index não foi encontrada.";
-						exit(EXIT_ERROR);
+						$controller = new \App\Controllers\Errors\Error404Controller();
+
+						$params = [
+							'msg' => "O método <b>{$action}</b> não foi encontrado."
+						];
+
+						$controller->index($params);
+						// echo "O método {$action} não foi encontrada.";
+						// exit(EXIT_ERROR);
 					}
 				} else {
 
-					echo "A classe {$segments[$i]} não foi encontrada.";
-					exit(EXIT_ERROR);
+					$controller = new \App\Controllers\Errors\Error404Controller();
+
+					$params = [
+						'msg' => "A classe <b>{$segments[$i]}</b> não foi encontrada."
+					];
+
+					$controller->index($params);
+					// echo "A classe {$segments[$i]} não foi encontrada.";
+					// exit(EXIT_ERROR);
 				}
 			}
-		}
+		} else {
+			if (class_exists($class = $this->getClassFullyName($this->controller))) {
+
+				$controller = new $class();
+
+				if (method_exists($controller, $this->action)) {
+
+					$controller->{$this->action}();
+				} else {
+
+					$controller = new \App\Controllers\Errors\Error404Controller();
+
+					$params = [
+						'msg' => "O método <b>{$this->action}</b> não foi encontrado."
+					];
+
+					$controller->index($params);
+					// echo "O método index não foi encontrada.";
+					// exit(EXIT_ERROR);
+				}
+			} else {
+
+				$controller = new \App\Controllers\Errors\Error404Controller();
+				$controller->index();
+			}
+
+		}		
 	}
 
 	protected function getClassFullyName($classname)

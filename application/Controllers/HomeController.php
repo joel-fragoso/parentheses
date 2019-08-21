@@ -8,12 +8,17 @@ class HomeController extends Controller
 {
 	public function index($params = [])
 	{
-		var_dump($params);
-		$this->view('home/index');
+		$this->view('home/index', $params);
 	}
 	
 	public function edit($params = [])
 	{
-		echo 'Edit';
+		$id = isset($params[2]) ? $params[2] : '';
+
+		$data = [
+			'id' => $id
+		];
+
+		$this->view('home/edit', $data);
 	}
 }
