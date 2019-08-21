@@ -166,8 +166,27 @@ $config->load('database');
 
 /*
  *-------------------------------------------------------
+ *	Inclui as funções comuns
+ *-------------------------------------------------------
+ */
+ require_once SYSPATH . 'parentheses' . DS . 'Core' . DS . 'Common.php';
+
+/*
+ *-------------------------------------------------------
  *	Executa a aplicação
  *-------------------------------------------------------
  */
 $app = new \Parentheses\Core\Parentheses($config);
 $app->run();
+
+$data = [
+	'mesa',
+	'cadeira',
+	'sofá',
+	'televisão',
+	'som'
+];
+
+unset($data[0], $data[2]);
+
+var_dump(reset_index_array($data));
