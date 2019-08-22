@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="pt-BR">
 <head>
 	<!-- Meta tags -->
 	<meta charset="UTF-8">
@@ -24,22 +24,26 @@
 			border-bottom: 1px solid #E9E9E9;
 			background-color: #F44336;
 			color: #FFF;
+			font-size: "Noto Sans", sans-serif;
+			font-weight: bold;
 		}
 
 		.box-body {
 			display: block;
 			margin: 0;
 			padding: 1rem;
+			font-family: "Noto Sans", sans-serif;
+			font-weight: normal;
 		}
 	</style>
 
 	<!-- Title -->
-	<title>Parentheses &dash; 404 Página não encontrada</title>
+	<title>404 Página não encontrada</title>
 </head>
 <body>
 	<div class="box">
-		<h3 class="box-header">Opsss... 404 Página não encontrada</h3>
-		<p class="box-body"><?php echo $msg; ?></p>
+		<h3 class="box-header">404 Página não encontrada</h3>
+		<p class="box-body"><?php echo htmlspecialchars_decode($msg); ?></p>
 	</div>
 </body>
 </html>

@@ -1,2 +1,2 @@
 <h3>Edit</h3>
-<p><?php echo $id; ?></p>
+<p><?php echo urldecode($id); ?></p>

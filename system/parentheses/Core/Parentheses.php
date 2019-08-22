@@ -112,24 +112,20 @@ class Parentheses
 						$controller = new \App\Controllers\Errors\Error404Controller();
 
 						$params = [
-							'msg' => "O método <b>{$action}</b> não foi encontrado."
+							'msg' => htmlspecialchars("O método <b>{$action}</b> não foi encontrado.")
 						];
 
 						$controller->index($params);
-						// echo "O método {$action} não foi encontrada.";
-						// exit(EXIT_ERROR);
 					}
 				} else {
 
 					$controller = new \App\Controllers\Errors\Error404Controller();
 
 					$params = [
-						'msg' => "A classe <b>{$segments[$i]}</b> não foi encontrada."
+						'msg' => htmlspecialchars("A classe <b>{$segments[$i]}</b> não foi encontrada.")
 					];
 
 					$controller->index($params);
-					// echo "A classe {$segments[$i]} não foi encontrada.";
-					// exit(EXIT_ERROR);
 				}
 			}
 		} else {
@@ -145,12 +141,10 @@ class Parentheses
 					$controller = new \App\Controllers\Errors\Error404Controller();
 
 					$params = [
-						'msg' => "O método <b>{$this->action}</b> não foi encontrado."
+						'msg' => htmlspecialchars("O método <b>{$this->action}</b> não foi encontrado.")
 					];
 
 					$controller->index($params);
-					// echo "O método index não foi encontrada.";
-					// exit(EXIT_ERROR);
 				}
 			} else {
 

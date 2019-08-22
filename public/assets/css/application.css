@@ -2,3 +2,11 @@ html {
 	font-size: 10px;
 	box-sizing: border-box;
 }
+
+body {
+	font-family: "Noto Sans", sans-serif;
+	font-size: 1.6rem;
+	font-weight: normal;
+	color: #666;
+	background-color: #FAFAFA;
+}
